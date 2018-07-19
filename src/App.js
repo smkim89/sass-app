@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import styled, {injectGlobal} from 'styled-components';
+import styled, {injectGlobal, keyframes} from 'styled-components';
 
 injectGlobal`
   body{
@@ -13,7 +13,7 @@ class App extends Component {
     return (
       <Fragment>
         <Container>
-          <Button danger> danger </Button>
+          <Button danger rotationTime={5}> danger </Button>
           <Button success> success </Button>
           <Anchor href="http://www.naver.com"> NAVER </Anchor>
         </Container>
@@ -29,6 +29,7 @@ const Container = styled.div`
   background-color : red;
 `;
 
+//원할 때마다 props를 불러올 수 있음. props가 스타일로 직접감. 
 const Button = styled.button`
   border-radius : 50px;
   padding : 5px;
@@ -42,12 +43,24 @@ const Button = styled.button`
     outline : none;
   }
   background-color : ${props => props.danger ? "black" : "white"}
+  ${props => {
+    if(props.danger){
+      return `animation : ${rotation} ${props.rotationTime}s linear infinite`
+    }
+  }}
 `;
 
 //Button 컴포넌트에 a태그 기능 추가
 const Anchor = Button.withComponent("a").extend`
-  text-decoration : none;
-`
+  text-decoration : none; 
+`;
 
-
+const rotation = keyframes`
+  from{
+    transform : rotate(0deg);
+  }
+  to{
+    transform : rotate(360deg);
+  }
+`;
 export default App;
