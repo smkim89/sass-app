@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react';
-import styled, {injectGlobal, keyframes} from 'styled-components';
+import React, {Component} from 'react';
+import styled, {injectGlobal,css} from 'styled-components';
 
 injectGlobal`
   body{
@@ -8,59 +8,37 @@ injectGlobal`
   }
 `
 
-class App extends Component {
-  render() {
-    return (
-      <Fragment>
-        <Container>
-          <Button danger rotationTime={5}> danger </Button>
-          <Button success> success </Button>
-          <Anchor href="http://www.naver.com"> NAVER </Anchor>
-        </Container>
-      </Fragment>
-    );
-  }
-}
+//공통적으로 사용할 css를 캡슐화 할 수 있음.
+const commonCss = css`
+  box-shadow : 0 4px 6px rgba(50, 50, 93, 0.11), 0  1px 3px rgba(0, 0, 0, 0.08);
+  background-color : white;
+  border-radius : 10px;
+  padding : 20;
+`
+
+const Input = styled.input.attrs({
+  required : true
+
+})`
+border-radius : 5px;
+${commonCss}
+`
 
 //styled.div -> html 요소를 선택함.
 const Container = styled.div`
   height : 100vh;
   width : 100%;
-  background-color : red;
+  background-color : pink;
 `;
 
-//원할 때마다 props를 불러올 수 있음. props가 스타일로 직접감. 
-const Button = styled.button`
-  border-radius : 50px;
-  padding : 5px;
-  min-width : 120px;
-  color : red;
-  font-weight : 600px;
-  webkit-appearance : none;
-  cursor : pointer;
-  &:active,
-  &:focus {
-    outline : none;
-  }
-  background-color : ${props => props.danger ? "black" : "white"}
-  ${props => {
-    if(props.danger){
-      return `animation : ${rotation} ${props.rotationTime}s linear infinite`
-    }
-  }}
-`;
 
-//Button 컴포넌트에 a태그 기능 추가
-const Anchor = Button.withComponent("a").extend`
-  text-decoration : none; 
-`;
-
-const rotation = keyframes`
-  from{
-    transform : rotate(0deg);
+class App extends Component {
+  render() {
+    return (
+        <Container>
+          <Input placeholder="HELLO" />
+        </Container>
+    );
   }
-  to{
-    transform : rotate(360deg);
-  }
-`;
+}
 export default App;
