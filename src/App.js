@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import styled, {injectGlobal,css} from 'styled-components';
+import styled, {injectGlobal,css, ThemeProvider} from 'styled-components';
+import theme from './theme';
 
 injectGlobal`
   body{
@@ -24,6 +25,13 @@ border-radius : 5px;
 ${commonCss}
 `
 
+//모든 컴포턴트에서 props(<ThemeProvider theme={theme}>)안의 theme에서 값을 가져올 수 있음.
+const Button = styled.button`
+  border-radius : 30px;
+  padding : 25px 15px;
+  background-color : ${props => props.theme.successColor}
+`;
+
 //styled.div -> html 요소를 선택함.
 const Container = styled.div`
   height : 100vh;
@@ -31,13 +39,27 @@ const Container = styled.div`
   background-color : pink;
 `;
 
+const Card = styled.div`
+  background-color : red;
+`;
 
+const Form = () => (
+  <Card>
+    <Button>
+      HELLO
+    </Button>
+  </Card>
+);
+  
+//ThemeProvider 항상 theme를 찾고있음. {theme}는 theme.js의 export된 theme 
 class App extends Component {
   render() {
     return (
+        <ThemeProvider theme={theme}>
         <Container>
-          <Input placeholder="HELLO" />
+          <Form />
         </Container>
+        </ThemeProvider>
     );
   }
 }
